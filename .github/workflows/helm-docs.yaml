@@ -1,0 +1,40 @@
+name: Helm readme check
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  helm-readme:
+    runs-on: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+    - name: Install dependencies
+        run: |
+          go install github.com/norwoodj/helm-docs/cmd/helm-docs@latest
+          helm-docs -v
+
+    # - name: Check README.md
+    #   shell: bash
+    #   run: |
+    #     npm install -g @bitnami/readme-generator-for-helm@2.4.2
+
+    #     cd deploy/helm/main
+    #     readme-generator -v values.yaml -r README.md
+
+    #     if [[ -n "$(git diff --stat)" ]]; then
+    #       echo "
+
+    #         The main helm README has not been updated to the existing
+    #         values.yaml file. Please run the README generator by using the
+    #         following command.
+
+    #         $ docker run -v \$(pwd)/deploy/helm/main:/deploy/helm/main -w /deploy/helm/main node:18.11.0 /bin/bash -c 'npm install -g @bitnami/readme-generator-for-helm@2.4.2 && readme-generator -v values.yaml -r README.md'
+
+    #       "
+    #       exit 1
+    #     fi
