@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         go install github.com/norwoodj/helm-docs/cmd/helm-docs@latest
-        cat "hi" > hi.txt
+        echo "hi" > hi.txt
         git diff --stat
 
     # - name: Check README.md
